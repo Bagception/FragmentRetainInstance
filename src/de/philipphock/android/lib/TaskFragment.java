@@ -1,7 +1,11 @@
 package de.philipphock.android.lib;
 
+import de.philipphock.android.fragmentretaininstance.DummyTaskFragment;
+import de.philipphock.android.fragmentretaininstance.MyTask;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -42,11 +46,8 @@ public abstract class TaskFragment<E> extends Fragment{
 			task.updateTaskCallbacks(null);
 	}
 	
+	
 	public abstract void execute();
 	
-	/**
-	 * 
-	 * @return create
-	 */
 	public abstract TaskCallbackUpdatable<E> getTask();
 }
