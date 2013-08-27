@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class MainActivity extends Activity implements TaskCallbacks<MyTask>{
 
@@ -81,16 +82,17 @@ public class MainActivity extends Activity implements TaskCallbacks<MyTask>{
 
 
 	@Override
-	public void onUpdate(MyTask task) {
+	public void onUpdate(final MyTask task) {
 		Log.d("Test",task.getCounter()+"");
-//		runOnUiThread(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				//TextView statusTextView = (TextView) findViewById(R.id.status);
-//				//statusTextView.setText(t.getCounter());				
-//			}
-//		});
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				TextView statusTextView = (TextView) findViewById(R.id.status);
+				statusTextView.setText(task.getCounter()+"");			
+				Log.d("Test","updating view "+statusTextView.getId()+" "+task.getCounter());
+			}
+		});
 		
 	}
 

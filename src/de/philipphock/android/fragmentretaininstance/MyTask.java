@@ -1,16 +1,20 @@
 package de.philipphock.android.fragmentretaininstance;
 
+import de.philipphock.android.lib.TaskCallbackUpdatable;
 import de.philipphock.android.lib.TaskCallbacks;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.util.Log;
 
-public class MyTask extends AsyncTask<Void, Integer, Void> {
+public class MyTask extends AsyncTask<Void, Integer, Void> implements TaskCallbackUpdatable<MyTask>{
 	private TaskCallbacks<MyTask> t;
 	private volatile boolean running=true;
 	private int counter = 0;
 	
+
+	
 	public MyTask(TaskCallbacks<MyTask> t) {
-		this.t=t;
+		updateTaskCallbacks(t);
 	}
 	
 	public int getCounter() {
@@ -55,11 +59,8 @@ public class MyTask extends AsyncTask<Void, Integer, Void> {
 		t.onPreExecute();
 		while(running){
 			counter++;
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			SystemClock.sleep(300);
+			
 			t.onUpdate(this);
 		}
 		t.onPostExecute();
@@ -68,6 +69,12 @@ public class MyTask extends AsyncTask<Void, Integer, Void> {
 	
 	public void stopThread(){
 		running=false;
+	}
+
+	@Override
+	public void updateTaskCallbacks(TaskCallbacks<MyTask> c) {
+		this.t=c;
+		
 	}
 
 }
